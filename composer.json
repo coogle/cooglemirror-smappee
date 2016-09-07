@@ -1,0 +1,25 @@
+{
+    "name": "cooglemirror/smappee",
+    "description": "",
+    "authors": [
+        {
+            "name": "John Coggeshall",
+            "email": "john@coggeshall.org"
+        }
+    ],
+    "require": {
+        "php": ">=5.4.0",
+        "illuminate/support": "4.2.*",
+        "jpgraph/jpgraph" : "dev-master",
+        "coogle/smappee" : "*"
+    },
+    "autoload": {
+        "classmap": [
+            "src/migrations"
+        ],
+        "psr-0": {
+            "Cooglemirror\\Smappee\\": "src/"
+        }
+    },
+    "minimum-stability": "dev"
+}
