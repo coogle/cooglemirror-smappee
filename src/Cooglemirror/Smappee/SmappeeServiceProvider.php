@@ -31,11 +31,22 @@ class SmappeeServiceProvider extends ServiceProvider {
 		   'cooglemirror-smappee.commands.poll-smappee'    
 		]);
 		
-		\Event::listen('cooglemirror.render', function($layoutView) {
+		\Event::listen(\Cooglemirror\Events::RENDER, function($layoutView) {
 		    \View::composer('cooglemirror-smappee::widget', '\Cooglemirror\Smappee\Widget');
 		    
 		    $view = \View::make('cooglemirror-smappee::widget')->render();
 		    $layoutView->with(\Config::get('cooglemirror-smappee::widget.placement'), $view);
+		});
+		
+		\Event::listen(\Cooglemirror\Events::PROCESS_CRON, function(\CronRunCommand $cronCmd) {
+		    
+		    $this->everyFifteenMinutes(function() {
+		        \Artisan::call('cooglemirror-smappee.commands.poll-smappee');
+		    });
+		    
+		    $this->dailyAt('00:00', function() {
+		        UsageRecord::all()->delete();  
+		    });
 		});
 		
 		if(\DB::getDriverName() == 'sqlite') {
