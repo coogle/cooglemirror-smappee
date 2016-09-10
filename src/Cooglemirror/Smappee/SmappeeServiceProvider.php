@@ -40,11 +40,11 @@ class SmappeeServiceProvider extends ServiceProvider {
 		
 		\Event::listen(\Cooglemirror\Events::PROCESS_CRON, function(\CronRunCommand $cronCmd) {
 		    
-		    $this->everyFifteenMinutes(function() {
+		    $cronCmd->everyFifteenMinutes(function() {
 		        \Artisan::call('cooglemirror-smappee.commands.poll-smappee');
 		    });
 		    
-		    $this->dailyAt('00:00', function() {
+		    $cronCmd->dailyAt('00:00', function() {
 		        UsageRecord::all()->delete();  
 		    });
 		});
